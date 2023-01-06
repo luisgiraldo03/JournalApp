@@ -7,24 +7,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth/thunks";
 import { useMemo } from "react";
 
+const formData = {
+  email: '',
+  password: ''
+}
+
 export const LoginPage = () => {
 
   const { status, errorMessage } = useSelector(state => state.auth)
 
   const dispatch = useDispatch();
 
-  const {email, password, onInputChange} = useForm({
-    email: '',
-    password: ''
-  });
+  const { email, password, onInputChange } = useForm(formData);
 
-  const isAuthenticating = useMemo( () => status === 'checking', [status]);
+  const isAuthenticating = useMemo(() => status === 'checking', [status]);
 
   const onSubmit = (event) => {
     event.preventDefault();
 
-    console.log({email, password});
-    dispatch( startLoginWithEmailPassword({email, password}));
+    console.log({ email, password });
+    dispatch(startLoginWithEmailPassword({ email, password }));
   }
   const onGoogleSignIn = () => {
     console.log('onGoogle');
@@ -45,7 +47,7 @@ export const LoginPage = () => {
               name="email"
               value={email}
               onChange={onInputChange}
-              >
+            >
             </TextField>
           </Grid>
 
@@ -62,8 +64,8 @@ export const LoginPage = () => {
           </Grid>
 
           <Grid container display={!!errorMessage ? '' : 'none'}
-          sx={{mt:1 }}>
-          <Grid item xs={12} 
+            sx={{ mt: 1 }}>
+            <Grid item xs={12}
             >
               <Alert
                 severity="error">{errorMessage}</Alert>
